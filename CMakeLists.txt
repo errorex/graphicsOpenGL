@@ -55,31 +55,31 @@ add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 )
 
-# snake
-add_executable(snake 
-	snake/main.cpp
-	snake/MyGLWindow.cpp
-	snake/MyGLWindow.h
-	snake/KingTutorial.cpp
-	snake/KingTutorial.h
-	snake/ShapeGenerator.cpp
-	snake/ShapeGenerator.h
-	snake/ShapeData.cpp
-	snake/ShapeData.h
+# tutorials
+add_executable(tutorials 
+	tutorials/main.cpp
+	tutorials/MyGLWindow.cpp
+	tutorials/MyGLWindow.h
+	tutorials/KingTutorial.cpp
+	tutorials/KingTutorial.h
+	tutorials/ShapeGenerator.cpp
+	tutorials/ShapeGenerator.h
+	tutorials/ShapeData.cpp
+	tutorials/ShapeData.h
 
 	common/shader.cpp
 	common/shader.hpp
 	
-	snake/SimpleFragmentShader.fragmentshader
-	snake/SimpleVertexShader.vertexshader
+	tutorials/SimpleFragmentShader.fragmentshader
+	tutorials/SimpleVertexShader.vertexshader
 )
-target_link_libraries(snake
+target_link_libraries(tutorials
 	${ALL_LIBS}
 )
 # Xcode and Visual working directories
-set_target_properties(snake PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/snake/")
-create_target_launcher(snake WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/snake/")
-create_default_target_launcher(snake WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/snake/") # tut 1 is not the default or people would complain that tut 2 doesn't work
+set_target_properties(tutorials PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tutorials/")
+create_target_launcher(tutorials WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tutorials/")
+create_default_target_launcher(tutorials WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tutorials/") # tut 1 is not the default or people would complain that tut 2 doesn't work
 
 
 
@@ -89,8 +89,8 @@ SOURCE_GROUP(shaders REGULAR_EXPRESSION ".*/.*shader$" )
 
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
 add_custom_command(
-   TARGET snake POST_BUILD
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/snake${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/snake/"
+   TARGET tutorials POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/tutorials${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/tutorials/"
 )
 
 elseif (${CMAKE_GENERATOR} MATCHES "Xcode" )
