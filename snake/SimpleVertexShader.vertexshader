@@ -1,0 +1,21 @@
+#version 120
+// Input vertex data, different for all executions of this shader.
+attribute vec3 vertexPosition_modelspace;
+attribute vec3 vertexColor;
+varying vec3 ColorFromVertex;
+
+//Values that stay constant for the whole mesh
+//uniform mat4 MVP;
+uniform vec3 dominatingColor;
+//uniform float yFlip;
+uniform mat4 fullTransformMatrix;
+uniform mat4 projectionMatrix;
+
+void main(){
+
+	vec4 v = vec4(vertexPosition_modelspace, 1.0);
+	gl_Position = fullTransformMatrix * v;
+	ColorFromVertex = vertexColor;
+
+}
+

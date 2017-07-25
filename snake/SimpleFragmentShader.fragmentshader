@@ -1,0 +1,11 @@
+#version 120
+
+varying vec3 ColorFromVertex;
+
+void main()
+{
+
+	// Output color = red 
+	gl_FragColor = vec4(ColorFromVertex,1.0);
+
+}
