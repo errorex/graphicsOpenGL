@@ -38,6 +38,7 @@ include_directories(
 	external/glew-1.13.0/include/
 	external/assimp-3.0.1270/include/
 	external/bullet-2.81-rev2613/src/
+	external/Simple-OpenGL-Image-Library/src/
 	.
 )
 
@@ -54,6 +55,8 @@ add_definitions(
 	-DGLEW_STATIC
 	-D_CRT_SECURE_NO_WARNINGS
 )
+
+
 
 # tutorials
 add_executable(tutorials 
@@ -82,6 +85,32 @@ create_target_launcher(tutorials WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/
 create_default_target_launcher(tutorials WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tutorials/") # tut 1 is not the default or people would complain that tut 2 doesn't work
 
 
+# breakout
+add_executable(breakout 
+	breakout/main.cpp
+	breakout/Game.cpp
+	breakout/Game.h
+	breakout/ResourceManager.cpp
+	breakout/ResourceManager.h
+	breakout/Shader.cpp
+	breakout/Shader.h
+	breakout/Texture2D.cpp
+	breakout/Texture2D.h
+	breakout/SpriteRenderer.cpp
+	breakout/SpriteRenderer.h
+
+)
+target_link_libraries(breakout
+	${ALL_LIBS}
+	${CMAKE_SOURCE_DIR}/external/Simple-OpenGL-Image-Library/libSOIL.a
+
+)
+# Xcode and Visual working directories
+set_target_properties(breakout PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/breakout/")
+create_target_launcher(breakout WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/breakout/")
+create_default_target_launcher(breakout WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/breakout/") # tut 1 is not the default or people would complain that tut 2 doesn't work
+
+
 
 SOURCE_GROUP(common REGULAR_EXPRESSION ".*/common/.*" )
 SOURCE_GROUP(shaders REGULAR_EXPRESSION ".*/.*shader$" )
@@ -91,6 +120,10 @@ if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
 add_custom_command(
    TARGET tutorials POST_BUILD
    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/tutorials${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/tutorials/"
+)
+add_custom_command(
+   TARGET breakout POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/breakout${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/breakout/"
 )
 
 elseif (${CMAKE_GENERATOR} MATCHES "Xcode" )
