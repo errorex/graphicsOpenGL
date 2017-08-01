@@ -12,6 +12,8 @@
 #include <GL/glew.h>
 #include <glfw3.h>
 
+#include "GameLevel.h"
+#include <vector>
 
 // Represents the current state of the game
 enum GameState {
@@ -26,18 +28,23 @@ enum GameState {
 class Game
 {
 public:
+    const GLushort levelsQuantity = 4;
     // Game state
-    GameState              State;	
-    GLboolean              Keys[1024];
-    GLuint                 Width, Height;
+    GameState              state;	
+    GLboolean              keys[1024];
+    GLuint                 width, height;
+
+    std::vector<GameLevel> levels;
+    GLuint                 levelNum;
+
     // Constructor/Destructor
-    Game(GLuint width, GLuint height);
+    Game(GLuint pWidth, GLuint Height);
     ~Game();
     // Initialize game state (load all shaders/textures/levels)
     void Init();
     // GameLoop
-    void ProcessInput(GLfloat dt);
-    void Update(GLfloat dt);
+    void ProcessInput(GLfloat pDt);
+    void Update(GLfloat pDt);
     void Render();
 };
 

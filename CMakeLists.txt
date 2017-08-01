@@ -98,6 +98,10 @@ add_executable(breakout
 	breakout/Texture2D.h
 	breakout/SpriteRenderer.cpp
 	breakout/SpriteRenderer.h
+	breakout/GameObject.h
+	breakout/GameObject.cpp
+	breakout/GameLevel.h
+	breakout/GameLevel.cpp
 
 )
 target_link_libraries(breakout
