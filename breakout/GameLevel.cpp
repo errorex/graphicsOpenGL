@@ -6,17 +6,6 @@
 
 
 void GameLevel::draw(SpriteRenderer &pRenderer){
-
-	// for(GLuint x = 0; this->bricks.size(); x++){
-
-	// 	GameObject &tile = this->bricks[x];
-
-	// 	if(!tile.destroyed){
-	// 		tile.draw(pRenderer);
-	// 	}
-	// }
-
-
 	for (GameObject &tile : this->bricks){
 		if(!tile.destroyed){
 			tile.draw(pRenderer);
@@ -78,7 +67,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData,
 		
 		for (GLuint x = 0; x < width; ++x) {
 			
-			std::cout << "tileData["<<x<<"]["<<y<<"]="<<tileData[y][x]<<std::endl;
+			// std::cout << "tileData["<<x<<"]["<<y<<"]="<<tileData[y][x]<<std::endl;
 			if (tileData[y][x] >= 1) {
 
 				glm::vec3 color = glm::vec3(1.0f);

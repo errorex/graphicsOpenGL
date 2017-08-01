@@ -22,6 +22,11 @@ enum GameState {
     GAME_WIN
 };
 
+// Initial size of the player paddle
+const glm::vec2 PLAYER_SIZE(100, 20);
+// Initial velocity of the player paddle
+const GLfloat PLAYER_VELOCITY(2000.0f);
+
 // Game holds all game-related state and functionality.
 // Combines all game-related data into a single class for
 // easy access to each of the components and manageability.
