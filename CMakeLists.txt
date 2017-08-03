@@ -100,6 +100,8 @@ add_executable(breakout
 	breakout/SpriteRenderer.h
 	breakout/GameObject.h
 	breakout/GameObject.cpp
+	breakout/BallObject.h
+	breakout/BallObject.cpp
 	breakout/GameLevel.h
 	breakout/GameLevel.cpp
 

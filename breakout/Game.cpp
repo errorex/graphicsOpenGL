@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "ResourceManager.h"
 #include "SpriteRenderer.h"
+#include "BallObject.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -8,6 +9,8 @@
 // Game-related State data
 SpriteRenderer  *gRenderer;
 GameObject      *gPlayer;
+BallObject      *gBall;
+
 
 Game::Game(GLuint width, GLuint height) 
 	: state(GAME_ACTIVE), keys(), width(width), height(height) 
@@ -49,13 +52,19 @@ void Game::Init()
         //this->levels.reserve(this->levelsQuantity);
         this->levels.push_back(*std::unique_ptr<GameLevel>(new GameLevel(str.c_str(), this->width, this->height*0.5)));
     }
-    this->levelNum = 3;
+    this->levelNum = 0;
 
     //configure game objects
     glm::vec2 playerPos = glm::vec2(this->width / 2 - PLAYER_SIZE.x / 2, 
         this->height - PLAYER_SIZE.y);
     Texture2D paddleTexture = ResourceManager::GetTexture("paddle");
     gPlayer = new GameObject(playerPos, PLAYER_SIZE, paddleTexture);
+
+
+    //configure the Ball
+    glm::vec2 ballPos = playerPos + glm::vec2( PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2 );
+    Texture2D faceTexture = ResourceManager::GetTexture("face");
+    gBall = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, faceTexture);
 
     // Set render-specific controls
     Shader myShader;
@@ -65,7 +74,7 @@ void Game::Init()
 
 void Game::Update(GLfloat pDt)
 {
-
+    gBall->move(pDt,this->width);
 }
 
 
@@ -77,13 +86,24 @@ void Game::ProcessInput(GLfloat pDt)
         // Move playerboard
         if (this->keys[GLFW_KEY_A])
         {
-            if (gPlayer->position.x >= 0)
+            if (gPlayer->position.x >= 0){
                 gPlayer->position.x -= velocity;
+                if(gBall->stuck){
+                    gBall->position.x -= velocity;
+                }
+            }
         }
         if (this->keys[GLFW_KEY_D])
         {
-            if (gPlayer->position.x <= this->width - gPlayer->size.x)
+            if (gPlayer->position.x <= this->width - gPlayer->size.x){
                 gPlayer->position.x += velocity;
+                if(gBall->stuck){
+                    gBall->position.x += velocity;
+                }
+            }
+        }
+        if(this->keys[GLFW_KEY_SPACE]){
+            gBall->stuck = false;
         }
     }
 
@@ -98,6 +118,7 @@ void Game::Render()
         this->levels[this->levelNum].draw(*gRenderer);
 
         gPlayer->draw(*gRenderer);
+        gBall->draw(*gRenderer);
 
     }
 
