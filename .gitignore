@@ -4,6 +4,7 @@
 */bin*
 */lib*
 *.lib
+*.pdf
 BUILDING.txt
 build/
 notes.txt
