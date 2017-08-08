@@ -14,6 +14,7 @@ class BallObject : public GameObject{
 
 		glm::vec2 move(GLfloat dt, GLuint window_width);
 		void reset(glm::vec2 position, glm::vec2 velocity);
+		
 };
 
 #endif

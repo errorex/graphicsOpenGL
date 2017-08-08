@@ -1,7 +1,6 @@
 #include "Game.h"
 #include "ResourceManager.h"
 #include "SpriteRenderer.h"
-#include "BallObject.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -74,7 +73,11 @@ void Game::Init()
 
 void Game::Update(GLfloat pDt)
 {
-    gBall->move(pDt,this->width);
+    if(this->state == GAME_ACTIVE){
+        gBall->move(pDt,this->width);
+        doCollisions();
+    }
+    
 }
 
 
@@ -93,6 +96,7 @@ void Game::ProcessInput(GLfloat pDt)
                 }
             }
         }
+
         if (this->keys[GLFW_KEY_D])
         {
             if (gPlayer->position.x <= this->width - gPlayer->size.x){
@@ -102,16 +106,21 @@ void Game::ProcessInput(GLfloat pDt)
                 }
             }
         }
+
         if(this->keys[GLFW_KEY_SPACE]){
             gBall->stuck = false;
-        }
+        }               
+    }
+
+    if(this->keys[GLFW_KEY_P]){                        
+        this->state = this->state == GAME_ACTIVE ? GAME_PAUSED : GAME_ACTIVE;
     }
 
 }
 
 void Game::Render()	
 {
-    if(this->state == GAME_ACTIVE){
+    if(this->state == GAME_ACTIVE || this->state == GAME_PAUSED){
         Texture2D background = ResourceManager::GetTexture("background");
         gRenderer->DrawSprite(background, glm::vec2(0, 0), glm::vec2(this->width, this->height), 0.0f);
 
@@ -126,4 +135,43 @@ void Game::Render()
 	// myTexture = ResourceManager::GetTexture("face");
  //    gRenderer->DrawSprite(myTexture, glm::vec2(200, 200), glm::vec2(300, 400), glm::radians(45.0f), 
  //        glm::vec3(1.0f, 1.0f, 1.0f));
+}
+
+GLboolean Game::checkCollisionsSquares(GameObject &a, GameObject &b){
+    GLboolean x_collision = (a.position.x + a.size.x) >= b.position.x &&
+                    (b.position.x + b.size.x) >= a.position.x;
+
+    GLboolean y_collision =  (a.position.y + a.size.y) >= b.position.y &&
+                    (b.position.y + b.size.y) >= a.position.y;
+
+    return x_collision && y_collision;
+}
+
+GLboolean Game::checkCollisionsCircleSquare(BallObject &circle, GameObject &square){
+     // Get center point circle first 
+    glm::vec2 center(circle.position + circle.radius);
+    // Calculate AABB info (center, half-extents)
+    glm::vec2 aabb_half_extents(square.size.x / 2, square.size.y / 2);
+    glm::vec2 aabb_center(
+        square.position.x + aabb_half_extents.x, 
+        square.position.y + aabb_half_extents.y
+    );
+    // Get difference vector between both centers
+    glm::vec2 difference = center - aabb_center;
+    glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
+    // Add clamped value to AABB_center and we get the value of box closest to circle
+    glm::vec2 closest = aabb_center + clamped;
+    // Retrieve vector between center circle and closest point AABB and check if length <= radius
+    difference = closest - center;
+    return glm::length(difference) < circle.radius;
+}    
+
+void Game::doCollisions(){
+    for(GameObject &brick : this->levels[this->levelNum].bricks){
+        if( checkCollisionsCircleSquare(*gBall, brick) ){
+            if(!brick.destroyed){
+                brick.destroyed = GL_TRUE;
+            }
+        }
+    }
 }

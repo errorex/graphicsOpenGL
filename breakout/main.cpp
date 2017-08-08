@@ -21,9 +21,9 @@
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 // The Width of the screen
-const GLuint SCREEN_WIDTH = 800;
+const GLuint SCREEN_WIDTH = 640;
 // The height of the screen
-const GLuint SCREEN_HEIGHT = 600;
+const GLuint SCREEN_HEIGHT = 480;
 
 Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
         lastFrame = currentFrame;
         glfwPollEvents();
 
-        deltaTime = 0.001f;
+        //deltaTime = 0.001f;
         // Manage user input
         Breakout.ProcessInput(deltaTime);
 
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT);
         Breakout.Render();
 
-        glfwSwapBuffers(window);        
+        glfwSwapBuffers(window);   
     }    
 
     // Delete all resources as loaded using the resource manager

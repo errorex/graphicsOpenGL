@@ -15,19 +15,22 @@
 #include "GameLevel.h"
 #include <vector>
 
+#include "BallObject.h"
+
 // Represents the current state of the game
-enum GameState {
+enum GameState {    
     GAME_ACTIVE,
     GAME_MENU,
-    GAME_WIN
+    GAME_WIN,
+    GAME_PAUSED
 };
 
 // Initial size of the player paddle
 const glm::vec2 PLAYER_SIZE(100, 20);
 // Initial velocity of the player paddle
-const GLfloat PLAYER_VELOCITY(10000.0f);
+const GLfloat PLAYER_VELOCITY(1000.0f);
 
-const glm::vec2 INITIAL_BALL_VELOCITY(1000.0f, -1050.0f);
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 const GLfloat BALL_RADIUS = 12.5f;
 
 
@@ -55,6 +58,9 @@ public:
     void ProcessInput(GLfloat pDt);
     void Update(GLfloat pDt);
     void Render();
+    GLboolean checkCollisionsSquares(GameObject &a, GameObject &b);    
+    GLboolean checkCollisionsCircleSquare(BallObject &circle, GameObject &square);
+    void doCollisions();
 };
 
 #endif
