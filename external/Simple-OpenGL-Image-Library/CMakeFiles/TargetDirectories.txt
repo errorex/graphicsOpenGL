@@ -1,0 +1,7 @@
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/install/strip.dir
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/install/local.dir
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/edit_cache.dir
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/SOIL.dir
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/rebuild_cache.dir
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/install.dir
+/home/tiago/Projects/graphics/external/Simple-OpenGL-Image-Library/CMakeFiles/list_install_components.dir
